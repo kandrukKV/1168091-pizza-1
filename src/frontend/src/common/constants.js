@@ -3,6 +3,11 @@ export const DOUGH_TYPE = {
   ["Толстое"]: `large`,
 };
 
+export const DOUGH_SIZE = {
+  ["light"]: `small`,
+  ["large"]: `big`,
+};
+
 export const PIZZA_SIZE = {
   ["23 см"]: `small`,
   ["32 см"]: `normal`,
@@ -30,4 +35,9 @@ export const INGREDIENT = {
   ["Моцарелла"]: `mozzarella`,
   ["Пармезан"]: `parmesan`,
   ["Блю чиз"]: `blue_cheese`,
+};
+
+export const IngredientCount = {
+  MIN: 0,
+  MAX: 3,
 };

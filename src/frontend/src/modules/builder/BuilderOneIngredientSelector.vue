@@ -1,30 +1,46 @@
 <template>
   <li class="ingredients__item">
-    <span class="filling" :class="`filling--${STUFFING[stuffing.name]}`">
-      {{ stuffing.name }}
+    <span
+      class="filling"
+      :class="`filling--${getIngredientClass(ingredient.name)}`"
+    >
+      {{ ingredient.name }}
     </span>
-    <RadioButton :count="stuffing.count" />
+    <RadioButton
+      :count="ingredient.count"
+      @incCount="incIngredientCountHandler(ingredient.id)"
+      @decCount="decIngredientCountHandler(ingredient.id)"
+    />
   </li>
 </template>
 
 <script>
 import RadioButton from "../../common/components/RadioButton";
-import { STUFFING } from "../../common/constants";
+import { INGREDIENT } from "../../common/constants";
 export default {
   name: `BuilderStuffingSelector`,
   components: {
     RadioButton,
   },
   props: {
-    stuffing: {
+    ingredient: {
       type: Object,
       required: true,
     },
   },
   data() {
-    return {
-      STUFFING,
-    };
+    return {};
+  },
+  methods: {
+    getIngredientClass(ingredientName) {
+      return INGREDIENT[ingredientName];
+    },
+    incIngredientCountHandler(id) {
+      this.$emit("incIngredientCount", id);
+    },
+    decIngredientCountHandler(id) {
+      this.$emit("decIngredientCount", id);
+    },
   },
 };
 </script>

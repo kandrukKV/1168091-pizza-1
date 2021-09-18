@@ -4,41 +4,22 @@
       <h2 class="title title--small sheet__title">Выберите ингредиенты</h2>
 
       <div class="sheet__content ingredients">
-        <div class="ingredients__sauce">
-          <p>Основной соус:</p>
-
-          <label
-            v-for="(sauce, idx) in sauces"
-            :key="sauce.name"
-            class="radio ingredients__input"
-          >
-            <input
-              type="radio"
-              name="sauce"
-              :value="SAUCE[sauce.name]"
-              :checked="idx === 0"
-            />
-            <span>{{ sauce.name }}</span>
-          </label>
-        </div>
-
         <div class="ingredients__filling">
+          <BuilderSauceSelector
+            :current-sauce="currentSauce"
+            :sauces="sauces"
+            @setSauce="setSauceHandler"
+          />
           <p>Начинка:</p>
 
           <ul class="ingredients__list">
-            <li
-              v-for="ingredient in ingredients"
-              :key="ingredient.id"
-              class="ingredients__item"
-            >
-              <span
-                class="filling"
-                :class="`filling--${INGREDIENT[ingredient.name]}`"
-              >
-                {{ ingredient.name }}
-              </span>
-              <RadioButton />
-            </li>
+            <BuilderOneIngredientSelector
+              v-for="item in currentIngredients"
+              :key="item.id"
+              :ingredient="item"
+              @incIngredientCount="incIngredientCount"
+              @decIngredientCount="decIngredientCount"
+            />
           </ul>
         </div>
       </div>
@@ -47,30 +28,41 @@
 </template>
 
 <script>
-import { INGREDIENT, SAUCE } from "../../common/constants";
-import RadioButton from "../../common/components/RadioButton";
+import BuilderSauceSelector from "./BuilderSauceSelector";
+import BuilderOneIngredientSelector from "./BuilderOneIngredientSelector";
 export default {
   name: `BuilderIngredientSelector`,
   components: {
-    RadioButton,
+    BuilderSauceSelector,
+    BuilderOneIngredientSelector,
   },
   props: {
     sauces: {
       type: Array,
-      require: true,
+      required: true,
     },
-    ingredients: {
+    currentSauce: {
+      type: String,
+      required: true,
+    },
+    currentIngredients: {
       type: Array,
-      require: true,
+      default: () => [],
     },
   },
   data() {
-    return {
-      INGREDIENT,
-      SAUCE,
-    };
+    return {};
+  },
+  methods: {
+    setSauceHandler(sauceName) {
+      this.$emit("changeCurrentSauce", sauceName);
+    },
+    incIngredientCount(id) {
+      this.$emit("incIngredientCount", id);
+    },
+    decIngredientCount(id) {
+      this.$emit("decIngredientCount", id);
+    },
   },
 };
 </script>
-
-<style scoped></style>

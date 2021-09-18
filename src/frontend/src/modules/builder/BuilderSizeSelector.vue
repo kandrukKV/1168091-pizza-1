@@ -5,7 +5,7 @@
 
       <div class="sheet__content diameter">
         <label
-          v-for="(size, idx) in sizes"
+          v-for="size in sizes"
           :key="size.id"
           class="diameter__input"
           :class="`diameter__input--${PIZZA_SIZE[size.name]}`"
@@ -13,9 +13,10 @@
           <input
             type="radio"
             name="diameter"
-            value="small"
+            :value="PIZZA_SIZE[size.name]"
             class="visually-hidden"
-            :checked="idx === 1"
+            :checked="currentSize === PIZZA_SIZE[size.name]"
+            @change="changeSizeHandler"
           />
           <span>{{ size.name }}</span>
         </label>
@@ -32,13 +33,22 @@ export default {
   props: {
     sizes: {
       type: Array,
-      require: true,
+      required: true,
+    },
+    currentSize: {
+      type: String,
+      required: true,
     },
   },
   data() {
     return {
       PIZZA_SIZE,
     };
+  },
+  methods: {
+    changeSizeHandler(env) {
+      this.$emit("setSize", env.target.value);
+    },
   },
 };
 </script>

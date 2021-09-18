@@ -3,7 +3,7 @@
     <p>Основной соус:</p>
 
     <label
-      v-for="(sauce, idx) in sauces"
+      v-for="sauce in sauces"
       :key="sauce.name"
       class="radio ingredients__input"
     >
@@ -11,7 +11,8 @@
         type="radio"
         name="sauce"
         :value="SAUCE[sauce.name]"
-        :checked="idx === 0"
+        :checked="currentSauce === SAUCE[sauce.name]"
+        @change="changeSauceHandler"
       />
       <span>{{ sauce.name }}</span>
     </label>
@@ -36,6 +37,11 @@ export default {
     return {
       SAUCE,
     };
+  },
+  methods: {
+    changeSauceHandler(evt) {
+      this.$emit("setSauce", evt.target.value);
+    },
   },
 };
 </script>

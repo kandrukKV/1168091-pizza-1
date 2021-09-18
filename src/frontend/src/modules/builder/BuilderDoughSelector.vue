@@ -4,7 +4,7 @@
       <h2 class="title title--small sheet__title">Выберите тесто</h2>
       <div class="sheet__content dough">
         <label
-          v-for="(type, idx) in doughTypes"
+          v-for="type in doughTypes"
           :key="type.id"
           class="dough__input"
           :class="`dough__input--${DOUGH_TYPE[type.name]}`"
@@ -12,9 +12,10 @@
           <input
             type="radio"
             name="dought"
-            value="light"
+            :value="DOUGH_TYPE[type.name]"
             class="visually-hidden"
-            :checked="idx === 0"
+            :checked="DOUGH_TYPE[type.name] === currentDoughType"
+            @change="changeTypeHandler"
           />
           <b>{{ type.name }}</b>
           <span>{{ type.description }}</span>
@@ -32,13 +33,22 @@ export default {
   props: {
     doughTypes: {
       type: Array,
-      require: true,
+      required: true,
+    },
+    currentDoughType: {
+      type: String,
+      required: true,
     },
   },
   data() {
     return {
       DOUGH_TYPE,
     };
+  },
+  methods: {
+    changeTypeHandler(evt) {
+      this.$emit("setDoughType", evt.target.value);
+    },
   },
 };
 </script>

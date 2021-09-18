@@ -10,13 +10,18 @@
     </label>
 
     <div class="content__constructor">
-      <div class="pizza pizza--foundation--small-tomato">
+      <div
+        class="pizza"
+        :class="`pizza--foundation--${doughTypeClass}-${sauceClass}`"
+      >
         <div class="pizza__wrapper">
           <div
             v-for="item in ingredients"
-            :key="item"
+            :key="item.id"
             class="pizza__filling"
-            :class="`pizza__filling--${item}`"
+            :class="`pizza__filling--${INGREDIENT[item.name]}${getAdditionClass(
+              item.count
+            )}`"
           />
         </div>
       </div>
@@ -30,17 +35,44 @@
 </template>
 
 <script>
+import { DOUGH_SIZE, INGREDIENT } from "../../common/constants";
 export default {
   name: `BuilderPizzaView`,
   props: {
-    ingredients: {
-      type: Array,
-      default: () => [],
+    currentPizzaParams: {
+      type: Object,
+      required: true,
     },
   },
+  data() {
+    return {
+      INGREDIENT,
+    };
+  },
   computed: {
+    ingredients() {
+      const { ingredients } = this.currentPizzaParams;
+      return ingredients.filter((item) => item.count > 0);
+    },
+    doughTypeClass() {
+      return DOUGH_SIZE[this.currentPizzaParams.doughType];
+    },
+    sauceClass() {
+      return this.currentPizzaParams.sauce;
+    },
     total() {
       return 0;
+    },
+  },
+  methods: {
+    getAdditionClass(count) {
+      if (count === 2) {
+        return ` pizza__filling--second`;
+      }
+      if (count === 3) {
+        return ` pizza__filling--third`;
+      }
+      return ``;
     },
   },
 };
