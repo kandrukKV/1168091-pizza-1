@@ -41,3 +41,6 @@ export const IngredientCount = {
   MIN: 0,
   MAX: 3,
 };
+
+export const MOVE = "move";
+export const DATA_TRANSFER_PAYLOAD = "payload";

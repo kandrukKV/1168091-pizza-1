@@ -30,6 +30,7 @@
           :pizzaName="currentPizzaParams.pizzaName"
           :isDisabledPrepareBtn="isDisabledPrepareBtn"
           @changePizzaValue="changePizzaValue"
+          @addIngredient="incIngredientCount"
         />
       </div>
     </form>

@@ -11,23 +11,25 @@
       />
     </label>
 
-    <div class="content__constructor">
-      <div
-        class="pizza"
-        :class="`pizza--foundation--${doughTypeClass}-${sauceClass}`"
-      >
-        <div class="pizza__wrapper">
-          <div
-            v-for="item in ingredients"
-            :key="item.id"
-            class="pizza__filling"
-            :class="`pizza__filling--${INGREDIENT[item.name]}${getAdditionClass(
-              item.count
-            )}`"
-          />
+    <AppDrop @drop="dropIngredientHandler">
+      <div class="content__constructor">
+        <div
+          class="pizza"
+          :class="`pizza--foundation--${doughTypeClass}-${sauceClass}`"
+        >
+          <div class="pizza__wrapper">
+            <div
+              v-for="item in ingredients"
+              :key="item.id"
+              class="pizza__filling"
+              :class="`pizza__filling--${
+                INGREDIENT[item.name]
+              }${getAdditionClass(item.count)}`"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </AppDrop>
 
     <div class="content__result">
       <p>Итого: {{ totalPrice }} ₽</p>
@@ -39,6 +41,7 @@
 </template>
 
 <script>
+import AppDrop from "../../common/components/AppDrop";
 import {
   DOUGH_SIZE,
   INGREDIENT,
@@ -47,6 +50,9 @@ import {
 } from "../../common/constants";
 export default {
   name: `BuilderPizzaView`,
+  components: {
+    AppDrop,
+  },
   props: {
     currentPizzaParams: {
       type: Object,
@@ -95,6 +101,9 @@ export default {
     },
     changePizzaNameHandler(evt) {
       this.$emit("changePizzaValue", evt.target.value);
+    },
+    dropIngredientHandler(ingredient) {
+      this.$emit("addIngredient", ingredient.id);
     },
   },
 };

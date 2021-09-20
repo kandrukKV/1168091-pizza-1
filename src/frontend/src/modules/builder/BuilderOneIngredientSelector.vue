@@ -1,5 +1,5 @@
 <template>
-  <li class="ingredients__item">
+  <div>
     <span
       class="filling"
       :class="`filling--${getIngredientClass(ingredient.name)}`"
@@ -11,7 +11,7 @@
       @incCount="incIngredientCountHandler(ingredient.id)"
       @decCount="decIngredientCountHandler(ingredient.id)"
     />
-  </li>
+  </div>
 </template>
 
 <script>

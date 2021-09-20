@@ -13,13 +13,22 @@
           <p>Начинка:</p>
 
           <ul class="ingredients__list">
-            <BuilderOneIngredientSelector
+            <li
               v-for="item in currentIngredients"
               :key="item.id"
-              :ingredient="item"
-              @incIngredientCount="incIngredientCount"
-              @decIngredientCount="decIngredientCount"
-            />
+              class="ingredients__item"
+            >
+              <AppDrag
+                :draggable="item.count < IngredientCount.MAX"
+                :transfer-data="item"
+              >
+                <BuilderOneIngredientSelector
+                  :ingredient="item"
+                  @incIngredientCount="incIngredientCount"
+                  @decIngredientCount="decIngredientCount"
+                />
+              </AppDrag>
+            </li>
           </ul>
         </div>
       </div>
@@ -30,11 +39,14 @@
 <script>
 import BuilderSauceSelector from "./BuilderSauceSelector";
 import BuilderOneIngredientSelector from "./BuilderOneIngredientSelector";
+import AppDrag from "../../common/components/AppDrag";
+import { IngredientCount } from "../../common/constants";
 export default {
   name: `BuilderIngredientSelector`,
   components: {
     BuilderSauceSelector,
     BuilderOneIngredientSelector,
+    AppDrag,
   },
   props: {
     sauces: {
@@ -51,7 +63,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      IngredientCount,
+    };
   },
   methods: {
     setSauceHandler(sauceName) {
