@@ -12,9 +12,9 @@
           <input
             type="radio"
             name="dought"
-            :value="DOUGH_TYPE[type.name]"
+            :value="type.name"
             class="visually-hidden"
-            :checked="DOUGH_TYPE[type.name] === currentDoughType"
+            :checked="DOUGH_TYPE[type.name] === DOUGH_TYPE[currentDoughType]"
             @change="changeTypeHandler"
           />
           <b>{{ type.name }}</b>

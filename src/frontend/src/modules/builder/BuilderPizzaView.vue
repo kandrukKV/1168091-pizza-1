@@ -6,6 +6,8 @@
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
+        :value="pizzaName"
+        @input="changePizzaNameHandler"
       />
     </label>
 
@@ -28,20 +30,39 @@
     </div>
 
     <div class="content__result">
-      <p>Итого: {{ total }} ₽</p>
-      <button type="button" class="button" disabled>Готовьте!</button>
+      <p>Итого: {{ totalPrice }} ₽</p>
+      <button type="button" class="button" :disabled="isDisabledPrepareBtn">
+        Готовьте!
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { DOUGH_SIZE, INGREDIENT } from "../../common/constants";
+import {
+  DOUGH_SIZE,
+  INGREDIENT,
+  DOUGH_TYPE,
+  SAUCE,
+} from "../../common/constants";
 export default {
   name: `BuilderPizzaView`,
   props: {
     currentPizzaParams: {
       type: Object,
       required: true,
+    },
+    totalPrice: {
+      type: Number,
+      default: 0,
+    },
+    pizzaName: {
+      type: String,
+      default: "",
+    },
+    isDisabledPrepareBtn: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -55,13 +76,11 @@ export default {
       return ingredients.filter((item) => item.count > 0);
     },
     doughTypeClass() {
-      return DOUGH_SIZE[this.currentPizzaParams.doughType];
+      const doughType = DOUGH_TYPE[this.currentPizzaParams.doughType];
+      return DOUGH_SIZE[doughType];
     },
     sauceClass() {
-      return this.currentPizzaParams.sauce;
-    },
-    total() {
-      return 0;
+      return SAUCE[this.currentPizzaParams.sauce];
     },
   },
   methods: {
@@ -73,6 +92,9 @@ export default {
         return ` pizza__filling--third`;
       }
       return ``;
+    },
+    changePizzaNameHandler(evt) {
+      this.$emit("changePizzaValue", evt.target.value);
     },
   },
 };

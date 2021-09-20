@@ -10,8 +10,8 @@
       <input
         type="radio"
         name="sauce"
-        :value="SAUCE[sauce.name]"
-        :checked="currentSauce === SAUCE[sauce.name]"
+        :value="sauce.name"
+        :checked="currentSauce === sauce.name"
         @change="changeSauceHandler"
       />
       <span>{{ sauce.name }}</span>
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { SAUCE } from "../../common/constants";
 export default {
   name: `BuilderSauceSelector`,
   props: {
@@ -32,11 +31,6 @@ export default {
       type: String,
       required: true,
     },
-  },
-  data() {
-    return {
-      SAUCE,
-    };
   },
   methods: {
     changeSauceHandler(evt) {

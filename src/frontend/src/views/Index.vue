@@ -24,7 +24,13 @@
           @incIngredientCount="incIngredientCount"
           @decIngredientCount="decIngredientCount"
         />
-        <BuilderPizzaView :current-pizza-params="currentPizzaParams" />
+        <BuilderPizzaView
+          :current-pizza-params="currentPizzaParams"
+          :totalPrice="totalPrice"
+          :pizzaName="currentPizzaParams.pizzaName"
+          :isDisabledPrepareBtn="isDisabledPrepareBtn"
+          @changePizzaValue="changePizzaValue"
+        />
       </div>
     </form>
   </main>
@@ -50,14 +56,40 @@ export default {
     return {
       pizza,
       currentPizzaParams: {
-        doughType: `light`,
-        size: `normal`,
-        sauce: `tomato`,
+        pizzaName: "",
+        doughType: pizza.dough[0].name,
+        size: pizza.sizes[1].name,
+        sauce: pizza.sauces[0].name,
         ingredients: adaptIngredients(pizza.ingredients),
       },
     };
   },
-  computed: {},
+  computed: {
+    ingredientsPrice() {
+      return this.currentPizzaParams.ingredients.reduce((acc, val) => {
+        return acc + val.count * val.price;
+      }, 0);
+    },
+    totalPrice() {
+      const { doughType, size, sauce } = this.currentPizzaParams;
+      const { multiplier } = pizza.sizes.find((item) => item.name === size);
+      const { price: doughPrice } = pizza.dough.find(
+        (item) => item.name === doughType
+      );
+      const { price: saucePrice } = pizza.sauces.find(
+        (item) => item.name === sauce
+      );
+      const total =
+        multiplier * (doughPrice + saucePrice + this.ingredientsPrice);
+
+      return total;
+    },
+    isDisabledPrepareBtn() {
+      return (
+        this.ingredientsPrice === 0 || this.currentPizzaParams.pizzaName === ""
+      );
+    },
+  },
   methods: {
     setCurrentDoughType(doughType) {
       this.currentPizzaParams.doughType = doughType;
@@ -91,6 +123,9 @@ export default {
         idx,
         count
       );
+    },
+    changePizzaValue(pizzaName) {
+      this.currentPizzaParams.pizzaName = pizzaName;
     },
   },
 };

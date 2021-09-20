@@ -13,7 +13,7 @@
           <input
             type="radio"
             name="diameter"
-            :value="PIZZA_SIZE[size.name]"
+            :value="size.name"
             class="visually-hidden"
             :checked="currentSize === PIZZA_SIZE[size.name]"
             @change="changeSizeHandler"
