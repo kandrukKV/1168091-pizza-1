@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import AppLayoutHeader from "@/layouts/AppLayoutHeader";
-import IndexHome from "@/views/Index.vue";
+import AppLayoutHeader from "../layouts/AppLayoutHeader";
+import IndexHome from "../views/Index.vue";
 export default {
   name: "AppLayout",
   components: { IndexHome, AppLayoutHeader },
