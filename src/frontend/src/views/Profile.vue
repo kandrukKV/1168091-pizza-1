@@ -1,9 +1,9 @@
 <template>
   <main class="layout">
     <div class="layout__sidebar sidebar">
-      <a href="index.html" class="logo layout__logo">
+      <a href="#" class="logo layout__logo">
         <img
-          src="img/logo.svg"
+          src="../assets/img/logo.svg"
           alt="V!U!E! Pizza logo"
           width="90"
           height="40"
@@ -23,11 +23,14 @@
         <picture>
           <source
             type="image/webp"
-            srcset="img/users/user5@2x.webp 1x, img/users/user5@4x.webp 2x"
+            srcset="
+              ../assets/img/users/user5@2x.webp 1x,
+              ../assets/img/users/user5@4x.webp 2x
+            "
           />
           <img
-            src="img/users/user5@2x.jpg"
-            srcset="img/users/user5@4x.jpg"
+            src="../assets/img/users/user5@2x.jpg"
+            srcset="../assets/img/users/user5@4x.jpg"
             alt="Василий Ложкин"
             width="72"
             height="72"
@@ -58,7 +61,7 @@
 
       <div class="layout__address">
         <form
-          action="test.html"
+          action="#"
           method="post"
           class="address-form address-form--opened sheet"
         >
@@ -145,5 +148,3 @@ export default {
   name: "Profile",
 };
 </script>
-
-<style scoped></style>
