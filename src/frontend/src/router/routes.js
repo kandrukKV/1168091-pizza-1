@@ -1,30 +1,32 @@
+import { Path } from "../common/constants";
+
 export default [
   {
-    path: `/`,
+    path: Path.ROOT,
     name: `IndexHome`,
     component: () => import(`../views/Index.vue`),
     meta: { layout: "AppLayoutDefault" },
   },
   {
-    path: `/cart`,
+    path: Path.CARD,
     name: `Cart`,
     component: () => import(`../views/Cart.vue`),
     meta: { layout: "AppLayoutDefault" },
   },
   {
-    path: `/login`,
+    path: Path.LOGIN,
     name: `Login`,
     component: () => import(`../views/Login.vue`),
     meta: { layout: "AppLayoutModal" },
   },
   {
-    path: `/orders`,
+    path: Path.ORDERS,
     name: `Orders`,
     component: () => import(`../views/Orders.vue`),
     meta: { layout: "AppLayoutDefault" },
   },
   {
-    path: `/profile`,
+    path: Path.PROFILE,
     name: `Profile`,
     component: () => import(`../views/Profile.vue`),
     meta: { layout: "AppLayoutDefault" },
