@@ -80,10 +80,8 @@ export default {
       const { price: saucePrice } = pizza.sauces.find(
         (item) => item.name === sauce
       );
-      const total =
-        multiplier * (doughPrice + saucePrice + this.ingredientsPrice);
 
-      return total;
+      return multiplier * (doughPrice + saucePrice + this.ingredientsPrice);
     },
     isDisabledPrepareBtn() {
       return (

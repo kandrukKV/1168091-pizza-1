@@ -1,6 +1,6 @@
 .header {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 
   display: flex;
 
@@ -53,6 +53,9 @@
 }
 
 .header__user {
+  display: flex;
+  align-items: center;
+
   a {
     display: block;
 
