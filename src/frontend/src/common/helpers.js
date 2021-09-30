@@ -7,7 +7,7 @@ export const adaptIngredients = (stuffing) => {
   });
 };
 
-export const setIngredientCount = (ingredients, idx, count) => {
+export const getIngredientsWithNewCount = (ingredients, idx, count) => {
   const oldItem = ingredients[idx];
   const newItem = {
     ...oldItem,
@@ -15,3 +15,6 @@ export const setIngredientCount = (ingredients, idx, count) => {
   };
   return [...ingredients.slice(0, idx), newItem, ...ingredients.slice(idx + 1)];
 };
+
+export const capitalize = (string) =>
+  `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
