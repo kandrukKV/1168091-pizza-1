@@ -1,5 +1,8 @@
 import pizzaJson from "../../static/pizza.json";
-import { getIngredientsWithNewCount } from "../../common/helpers";
+import {
+  getIngredientsWithNewCount,
+  adaptIngredients,
+} from "../../common/helpers";
 import {
   SET_PIZZA_PARAMS,
   SET_CURRENT_PIZZA_NAME,
@@ -9,11 +12,6 @@ import {
   INC_INGREDIENT_COUNT_BY_ID,
   DEC_INGREDIENT_COUNT_BY_ID,
 } from "../mutations-types";
-import { adaptIngredients } from "../../common/helpers";
-
-// const entity = "builder";
-// const module = capitalize(entity);
-// const namespace = { entity, module };
 
 export default {
   namespaced: true,

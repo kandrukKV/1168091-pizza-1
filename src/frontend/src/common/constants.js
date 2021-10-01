@@ -47,7 +47,7 @@ export const DATA_TRANSFER_PAYLOAD = "payload";
 
 export const Path = {
   ROOT: `/`,
-  CARD: `/card`,
+  CART: `/cart`,
   LOGIN: `/login`,
   ORDERS: `/orders`,
   PROFILE: `/profile`,

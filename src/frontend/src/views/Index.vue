@@ -31,6 +31,7 @@
           :isDisabledPrepareBtn="isDisabledPrepareBtn"
           @changePizzaValue="changePizzaValue"
           @addIngredient="incIngredientCount"
+          @clickBtnMakePizza="addPizzaToCard"
         />
       </div>
     </form>
@@ -38,7 +39,7 @@
 </template>
 
 <script>
-import pizza from "../static/pizza.json";
+import { uniqueId } from "lodash";
 import BuilderDoughSelector from "../modules/builder/BuilderDoughSelector";
 import BuilderSizeSelector from "../modules/builder/BuilderSizeSelector";
 import BuilderIngredientsSelector from "../modules/builder/BuilderIngredientsSelector";
@@ -51,6 +52,7 @@ import {
   SET_CURRENT_SIZE,
   INC_INGREDIENT_COUNT_BY_ID,
   DEC_INGREDIENT_COUNT_BY_ID,
+  ADD_PIZZA_TO_PIZZA_LIST,
 } from "../store/mutations-types";
 
 export default {
@@ -73,11 +75,13 @@ export default {
     },
     totalPrice() {
       const { doughType, size, sauce } = this.currentPizzaParams;
-      const { multiplier } = pizza.sizes.find((item) => item.name === size);
-      const { price: doughPrice } = pizza.dough.find(
+      const { multiplier } = this.pizza.sizes.find(
+        (item) => item.name === size
+      );
+      const { price: doughPrice } = this.pizza.dough.find(
         (item) => item.name === doughType
       );
-      const { price: saucePrice } = pizza.sauces.find(
+      const { price: saucePrice } = this.pizza.sauces.find(
         (item) => item.name === sauce
       );
 
@@ -99,6 +103,7 @@ export default {
       INC_INGREDIENT_COUNT_BY_ID,
       DEC_INGREDIENT_COUNT_BY_ID,
     ]),
+    ...mapMutations("cart", [ADD_PIZZA_TO_PIZZA_LIST]),
     setCurrentDoughType(doughType) {
       this.SET_CURRENT_DOUGH_TYPE(doughType);
     },
@@ -116,6 +121,14 @@ export default {
     },
     changePizzaValue(pizzaName) {
       this.SET_CURRENT_PIZZA_NAME(pizzaName);
+    },
+    addPizzaToCard() {
+      this.ADD_PIZZA_TO_PIZZA_LIST({
+        id: uniqueId(),
+        params: this.currentPizzaParams,
+        totalPrice: this.totalPrice,
+        count: 1,
+      });
     },
   },
 };
