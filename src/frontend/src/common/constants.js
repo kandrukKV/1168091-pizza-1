@@ -3,15 +3,14 @@ export const DOUGH_TYPE = {
   ["Толстое"]: `large`,
 };
 
+export const DOUGH_NAME_FOR_CART = {
+  ["Тонкое"]: `тонком`,
+  ["Толстое"]: `толстом`,
+};
+
 export const DOUGH_SIZE = {
   ["light"]: `small`,
   ["large"]: `big`,
-};
-
-export const PIZZA_SIZE = {
-  ["23 см"]: `small`,
-  ["32 см"]: `normal`,
-  ["45 см"]: `big`,
 };
 
 export const SAUCE = {

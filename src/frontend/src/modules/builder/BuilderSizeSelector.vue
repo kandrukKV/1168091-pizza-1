@@ -8,16 +8,17 @@
           v-for="size in sizes"
           :key="size.id"
           class="diameter__input"
-          :class="`diameter__input--${PIZZA_SIZE[size.name]}`"
+          :class="`diameter__input--${size.name}`"
         >
           <input
             type="radio"
             name="diameter"
             :value="size.name"
             class="visually-hidden"
-            :checked="currentSize === PIZZA_SIZE[size.name]"
+            :checked="currentSize === size.name"
             @change="changeSizeHandler"
           />
+
           <span>{{ size.name }}</span>
         </label>
       </div>
@@ -26,8 +27,6 @@
 </template>
 
 <script>
-import { PIZZA_SIZE } from "../../common/constants";
-
 export default {
   name: `BuilderSizeSelectors`,
   props: {
@@ -39,11 +38,6 @@ export default {
       type: String,
       required: true,
     },
-  },
-  data() {
-    return {
-      PIZZA_SIZE,
-    };
   },
   methods: {
     changeSizeHandler(env) {

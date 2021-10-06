@@ -44,8 +44,10 @@ import BuilderDoughSelector from "../modules/builder/BuilderDoughSelector";
 import BuilderSizeSelector from "../modules/builder/BuilderSizeSelector";
 import BuilderIngredientsSelector from "../modules/builder/BuilderIngredientsSelector";
 import BuilderPizzaView from "../modules/builder/BuilderPizzaView";
-import { mapActions, mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapGetters } from "vuex";
 import {
+  SET_DEFAULT_CURRENT_PIZZA,
+  SET_CURRENT_PIZZA,
   SET_CURRENT_DOUGH_TYPE,
   SET_CURRENT_PIZZA_NAME,
   SET_CURRENT_SAUCE,
@@ -63,11 +65,21 @@ export default {
     BuilderIngredientsSelector,
     BuilderPizzaView,
   },
-  async created() {
-    await this.fetchPizzaParams();
+  created() {
+    const { id } = this.$route.query;
+    if (id) {
+      const currentPizza = this.getPizzaById(id);
+      if (currentPizza) {
+        this.SET_CURRENT_PIZZA(currentPizza.params);
+        return;
+      }
+    }
+    this.SET_DEFAULT_CURRENT_PIZZA(this.pizza);
   },
   computed: {
-    ...mapState("builder", ["pizza", "currentPizzaParams"]),
+    ...mapState("builder", ["currentPizzaParams"]),
+    ...mapState(["pizza"]),
+    ...mapGetters("cart", ["getPizzaById"]),
     ingredientsPrice() {
       return this.currentPizzaParams.ingredients.reduce((acc, val) => {
         return acc + val.count * val.price;
@@ -94,8 +106,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions("builder", ["fetchPizzaParams"]),
     ...mapMutations("builder", [
+      SET_DEFAULT_CURRENT_PIZZA,
+      SET_CURRENT_PIZZA,
       SET_CURRENT_DOUGH_TYPE,
       SET_CURRENT_SAUCE,
       SET_CURRENT_SIZE,
@@ -123,12 +136,15 @@ export default {
       this.SET_CURRENT_PIZZA_NAME(pizzaName);
     },
     addPizzaToCard() {
+      if (!this.currentPizzaParams.id) {
+        this.currentPizzaParams.id = uniqueId();
+        this.currentPizzaParams.count = 1;
+      }
       this.ADD_PIZZA_TO_PIZZA_LIST({
-        id: uniqueId(),
         params: this.currentPizzaParams,
         totalPrice: this.totalPrice,
-        count: 1,
       });
+      this.SET_DEFAULT_CURRENT_PIZZA(this.pizza);
     },
   },
 };

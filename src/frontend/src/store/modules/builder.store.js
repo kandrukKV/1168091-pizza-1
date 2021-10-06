@@ -1,10 +1,10 @@
-import pizzaJson from "../../static/pizza.json";
 import {
   getIngredientsWithNewCount,
   adaptIngredients,
 } from "../../common/helpers";
 import {
-  SET_PIZZA_PARAMS,
+  SET_DEFAULT_CURRENT_PIZZA,
+  SET_CURRENT_PIZZA,
   SET_CURRENT_PIZZA_NAME,
   SET_CURRENT_DOUGH_TYPE,
   SET_CURRENT_SAUCE,
@@ -13,28 +13,34 @@ import {
   DEC_INGREDIENT_COUNT_BY_ID,
 } from "../mutations-types";
 
+const getDefaultPizzaParams = (pizza) => {
+  return {
+    id: null,
+    pizzaName: "",
+    doughType: pizza.dough[0].name,
+    size: pizza.sizes[1].name,
+    sauce: pizza.sauces[0].name,
+    ingredients: adaptIngredients(pizza.ingredients.slice()),
+    count: null,
+  };
+};
+
 export default {
   namespaced: true,
   state: {
-    pizza: null,
-    currentPizzaParams: {
-      pizzaName: "",
-      doughType: null,
-      size: null,
-      sauce: null,
-      ingredients: null,
+    currentPizzaParams: null,
+  },
+  actions: {
+    setDefaultCurrentPizza({ commit }, pizzaParams) {
+      commit(SET_DEFAULT_CURRENT_PIZZA, pizzaParams);
     },
   },
   mutations: {
-    [SET_PIZZA_PARAMS](state, pizzaParams) {
-      state.pizza = pizzaParams;
-      state.currentPizzaParams = {
-        pizzaName: "",
-        doughType: pizzaParams.dough[0].name,
-        size: pizzaParams.sizes[1].name,
-        sauce: pizzaParams.sauces[0].name,
-        ingredients: adaptIngredients(pizzaParams.ingredients.slice()),
-      };
+    [SET_DEFAULT_CURRENT_PIZZA](state, pizzaParams) {
+      state.currentPizzaParams = getDefaultPizzaParams(pizzaParams);
+    },
+    [SET_CURRENT_PIZZA](state, pizza) {
+      state.currentPizzaParams = pizza;
     },
     [SET_CURRENT_PIZZA_NAME](state, name) {
       state.currentPizzaParams.pizzaName = name;
@@ -67,12 +73,6 @@ export default {
         idx,
         count
       );
-    },
-  },
-  actions: {
-    async fetchPizzaParams({ commit }) {
-      const pizzaParams = pizzaJson;
-      commit(SET_PIZZA_PARAMS, pizzaParams);
     },
   },
 };

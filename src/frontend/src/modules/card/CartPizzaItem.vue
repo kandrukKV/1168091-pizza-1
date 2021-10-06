@@ -11,40 +11,28 @@
       <div class="product__text">
         <h2>{{ currentPizza.pizzaName }}</h2>
         <ul>
-          <li>{{ currentPizza.size }}, на тонком тесте</li>
+          <li>{{ currentPizza.size }}, на {{ dough }} тесте</li>
           <li>Соус: {{ sauce }}</li>
           <li>Начинка: {{ ingredients }}</li>
         </ul>
       </div>
     </div>
 
-    <div class="counter cart-list__counter">
-      <button type="button" class="counter__button counter__button--minus">
-        <span class="visually-hidden">Меньше</span>
-      </button>
-      <input
-        type="text"
-        name="counter"
-        class="counter__input"
-        :value="pizza.count"
-      />
-      <button
-        type="button"
-        class="counter__button counter__button--plus counter__button--orange"
-      >
-        <span class="visually-hidden">Больше</span>
-      </button>
-    </div>
+    <CartCounter
+      :count="pizza.params.count"
+      :id="pizza.params.id"
+      @changeCounter="changeCounterHandler"
+    />
 
     <div class="cart-list__price">
-      <b>{{ pizza.totalPrice }} ₽</b>
+      <b>{{ price }} ₽</b>
     </div>
 
     <div class="cart-list__button">
       <button
         type="button"
         class="cart-list__edit"
-        @click="clickChangeBtnHandler(pizza.id)"
+        @click="clickChangeBtnHandler(pizza.params.id)"
       >
         Изменить
       </button>
@@ -53,8 +41,12 @@
 </template>
 
 <script>
+import { DOUGH_NAME_FOR_CART } from "../../common/constants";
+import CartCounter from "./CartCounter";
+
 export default {
   name: "CartPizzaItem",
+  components: { CartCounter },
   props: {
     pizza: {
       type: Object,
@@ -68,6 +60,9 @@ export default {
     sauce() {
       return this.currentPizza.sauce.toLowerCase();
     },
+    dough() {
+      return DOUGH_NAME_FOR_CART[this.pizza.params.doughType];
+    },
     ingredients() {
       const { ingredients } = this.currentPizza;
       const filteredIngredient = ingredients.filter((item) => item.count > 0);
@@ -77,10 +72,16 @@ export default {
         })
         .join(", ");
     },
+    price() {
+      return this.pizza.totalPrice * this.pizza.params.count;
+    },
   },
   methods: {
     clickChangeBtnHandler(id) {
       this.$emit("changePizza", id);
+    },
+    changeCounterHandler(newValue) {
+      this.$emit("changeCounter", newValue);
     },
   },
 };
