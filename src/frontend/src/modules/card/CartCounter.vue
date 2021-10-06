@@ -1,5 +1,5 @@
 <template>
-  <div class="counter cart-list__counter">
+  <div class="counter">
     <button
       type="button"
       class="counter__button counter__button--minus"
@@ -24,7 +24,7 @@ export default {
   name: "CartCounter",
   props: {
     id: {
-      type: String,
+      type: [Number, String],
       required: true,
     },
     count: {

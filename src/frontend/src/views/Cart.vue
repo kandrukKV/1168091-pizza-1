@@ -26,52 +26,12 @@
                 v-for="addition in additionalList"
                 :key="addition.name"
                 :item="addition"
+                @changeAdditionCounter="changeAdditionCounterHandler"
               />
             </ul>
           </div>
-
           <div class="cart__form">
-            <div class="cart-form">
-              <label class="cart-form__select">
-                <span class="cart-form__label">Получение заказа:</span>
-
-                <select class="select">
-                  <option value="1">Заберу сам</option>
-                  <option value="2">Новый адрес</option>
-                  <option value="3">Дом</option>
-                </select>
-              </label>
-
-              <label class="input input--big-label">
-                <span>Контактный телефон:</span>
-                <input type="text" name="tel" placeholder="+7 999-999-99-99" />
-              </label>
-
-              <div class="cart-form__address">
-                <span class="cart-form__label">Новый адрес:</span>
-
-                <div class="cart-form__input">
-                  <label class="input">
-                    <span>Улица*</span>
-                    <input type="text" name="street" />
-                  </label>
-                </div>
-
-                <div class="cart-form__input cart-form__input--small">
-                  <label class="input">
-                    <span>Дом*</span>
-                    <input type="text" name="house" />
-                  </label>
-                </div>
-
-                <div class="cart-form__input cart-form__input--small">
-                  <label class="input">
-                    <span>Квартира</span>
-                    <input type="text" name="apartment" />
-                  </label>
-                </div>
-              </div>
-            </div>
+            <CardOrder :user="user" />
           </div>
         </template>
       </div>
@@ -86,7 +46,7 @@
         Перейти к конструктору<br />чтоб собрать ещё одну пиццу
       </p>
       <div class="footer__price">
-        <b>Итого: 2 228 ₽</b>
+        <b>Итого: {{ totalPrice }} ₽</b>
       </div>
 
       <div class="footer__submit">
@@ -99,30 +59,46 @@
 <script>
 import CartPizzaItem from "../modules/card/CartPizzaItem";
 import CartAdditionItem from "../modules/card/CartAdditionItem";
-import { mapActions, mapMutations, mapState } from "vuex";
+import CardOrder from "../modules/card/CardOrder";
+import { mapMutations, mapState } from "vuex";
 import { Path } from "../common/constants";
-import { SET_COUNT_OF_PIZZA } from "../store/mutations-types";
+import {
+  SET_COUNT_OF_PIZZA,
+  SET_COUNT_OF_ADDITION_PRODUCT,
+} from "../store/mutations-types";
 
 export default {
   name: "Cart",
-  components: { CartPizzaItem, CartAdditionItem },
-  async created() {
-    await this.fetchAllAdditionProducts();
-  },
+  components: { CartPizzaItem, CartAdditionItem, CardOrder },
   computed: {
     ...mapState("cart", ["additionalList", "pizzaList"]),
+    ...mapState(["user"]),
     isEmptyPizzaList() {
       return this.pizzaList.length === 0;
     },
+    totalPrice() {
+      const pizzaPrice = this.pizzaList.reduce((acc, item) => {
+        return acc + item.totalPrice * item.params.count;
+      }, 0);
+      const additionPrice = this.additionalList.reduce((acc, item) => {
+        return acc + item.count * item.price;
+      }, 0);
+      return pizzaPrice + additionPrice;
+    },
   },
   methods: {
-    ...mapMutations("cart", [SET_COUNT_OF_PIZZA]),
-    ...mapActions("cart", ["fetchAllAdditionProducts"]),
+    ...mapMutations("cart", [
+      SET_COUNT_OF_PIZZA,
+      SET_COUNT_OF_ADDITION_PRODUCT,
+    ]),
     editPizzaHandler(id) {
       this.$router.push({ path: Path.ROOT, query: { id } });
     },
     changeCounterHandler(newCount) {
       this.SET_COUNT_OF_PIZZA(newCount);
+    },
+    changeAdditionCounterHandler(newCount) {
+      this.SET_COUNT_OF_ADDITION_PRODUCT(newCount);
     },
   },
 };

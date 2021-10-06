@@ -47,6 +47,7 @@
 
 <script>
 import { Path } from "../common/constants";
+import { mapState } from "vuex";
 
 export default {
   name: `AppLayoutHeader`,
@@ -60,6 +61,9 @@ export default {
     return {
       Path,
     };
+  },
+  computed: {
+    ...mapState(["user"]),
   },
 };
 </script>

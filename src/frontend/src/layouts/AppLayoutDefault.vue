@@ -1,20 +1,21 @@
 <template>
   <div class="app-layout">
-    <AppLayoutHeader :user="user" />
+    <AppLayoutHeader />
     <slot />
   </div>
 </template>
 
 <script>
 import AppLayoutHeader from "../layouts/AppLayoutHeader";
-import user from "../static/user.json";
 export default {
   name: "AppLayout",
   components: { AppLayoutHeader },
-  data() {
-    return {
-      user,
-    };
-  },
 };
 </script>
+<style>
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+</style>

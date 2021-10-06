@@ -1,10 +1,11 @@
 import allAdditionJson from "../../static/misc.json";
-import { cloneDeep } from "lodash";
 import {
   SET_ALL_ADDITION_PRODUCTS,
   ADD_PIZZA_TO_PIZZA_LIST,
   SET_COUNT_OF_PIZZA,
+  SET_COUNT_OF_ADDITION_PRODUCT,
 } from "../mutations-types";
+import { cloneDeep } from "lodash";
 
 export default {
   namespaced: true,
@@ -46,12 +47,30 @@ export default {
         ...pizzaList.slice(idx + 1),
       ];
     },
+    [SET_COUNT_OF_ADDITION_PRODUCT](state, payload) {
+      const { additionalList } = state;
+      const { id, count } = payload;
+      const idx = additionalList.findIndex((item) => item.id === id);
+      const newPizzaItem = cloneDeep(additionalList[idx]);
+      newPizzaItem.count = count;
+      state.additionalList = [
+        ...additionalList.slice(0, idx),
+        newPizzaItem,
+        ...additionalList.slice(idx + 1),
+      ];
+    },
   },
   actions: {
     async fetchAllAdditionProducts({ commit }) {
       const allAdditionProducts = await allAdditionJson;
-
-      commit(SET_ALL_ADDITION_PRODUCTS, allAdditionProducts);
+      const adaptAllAdditionProducts = allAdditionProducts.map((item) => {
+        return {
+          ...item,
+          image: require(`../../assets/img/${item.image.substr(12)}`),
+          count: 0,
+        };
+      });
+      commit(SET_ALL_ADDITION_PRODUCTS, adaptAllAdditionProducts);
     },
   },
 };

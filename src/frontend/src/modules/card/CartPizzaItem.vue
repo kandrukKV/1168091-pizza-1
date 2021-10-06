@@ -19,6 +19,7 @@
     </div>
 
     <CartCounter
+      class="cart-list__counter"
       :count="pizza.params.count"
       :id="pizza.params.id"
       @changeCounter="changeCounterHandler"
