@@ -33,7 +33,12 @@
 
     <div class="content__result">
       <p>Итого: {{ totalPrice }} ₽</p>
-      <button type="button" class="button" :disabled="isDisabledPrepareBtn">
+      <button
+        type="button"
+        class="button"
+        :disabled="isDisabledPrepareBtn"
+        @click="clickBtnMakePizzaHandler"
+      >
         Готовьте!
       </button>
     </div>
@@ -104,6 +109,9 @@ export default {
     },
     dropIngredientHandler(ingredient) {
       this.$emit("addIngredient", ingredient.id);
+    },
+    clickBtnMakePizzaHandler() {
+      this.$emit("clickBtnMakePizza");
     },
   },
 };

@@ -3,15 +3,14 @@ export const DOUGH_TYPE = {
   ["Толстое"]: `large`,
 };
 
+export const DOUGH_NAME_FOR_CART = {
+  ["Тонкое"]: `тонком`,
+  ["Толстое"]: `толстом`,
+};
+
 export const DOUGH_SIZE = {
   ["light"]: `small`,
   ["large"]: `big`,
-};
-
-export const PIZZA_SIZE = {
-  ["23 см"]: `small`,
-  ["32 см"]: `normal`,
-  ["45 см"]: `big`,
 };
 
 export const SAUCE = {
@@ -47,8 +46,24 @@ export const DATA_TRANSFER_PAYLOAD = "payload";
 
 export const Path = {
   ROOT: `/`,
-  CARD: `/card`,
+  CART: `/cart`,
   LOGIN: `/login`,
   ORDERS: `/orders`,
   PROFILE: `/profile`,
 };
+
+export const TypeOfDelivery = {
+  GET_IT_MYSELF: "Получу сам",
+  NEW_ADDRESS: "Новый адрес",
+  EXISTING_ADDRESS: "Существующий адрес",
+};
+
+export const DeliveryLogOutAddressOptions = [
+  TypeOfDelivery.GET_IT_MYSELF,
+  TypeOfDelivery.NEW_ADDRESS,
+];
+
+export const DeliveryLogInAddressOption = [
+  ...DeliveryLogOutAddressOptions,
+  TypeOfDelivery.EXISTING_ADDRESS,
+];

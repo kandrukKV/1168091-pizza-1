@@ -11,7 +11,7 @@
       </router-link>
     </div>
     <div class="header__cart">
-      <router-link :to="Path.CARD">0 ₽</router-link>
+      <router-link :to="Path.CART">0 ₽</router-link>
     </div>
     <div class="header__user">
       <router-link v-if="user === null" :to="Path.LOGIN" class="header__login"
@@ -47,19 +47,17 @@
 
 <script>
 import { Path } from "../common/constants";
+import { mapState } from "vuex";
 
 export default {
   name: `AppLayoutHeader`,
-  props: {
-    user: {
-      type: [Object, null],
-      default: null,
-    },
-  },
   data() {
     return {
       Path,
     };
+  },
+  computed: {
+    ...mapState(["user"]),
   },
 };
 </script>

@@ -8,9 +8,9 @@ export default [
     meta: { layout: "AppLayoutDefault" },
   },
   {
-    path: Path.CARD,
+    path: Path.CART,
     name: `Cart`,
-    component: () => import(`../views/Cart.vue`),
+    component: () => import(`../views/Cart`),
     meta: { layout: "AppLayoutDefault" },
   },
   {
