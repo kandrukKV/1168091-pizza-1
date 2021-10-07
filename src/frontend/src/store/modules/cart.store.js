@@ -4,14 +4,18 @@ import {
   ADD_PIZZA_TO_PIZZA_LIST,
   SET_COUNT_OF_PIZZA,
   SET_COUNT_OF_ADDITION_PRODUCT,
+  SET_CURRENT_DELIVERY_TYPE,
+  CLEAR_PIZZA_LIST,
 } from "../mutations-types";
 import { cloneDeep } from "lodash";
+import { TypeOfDelivery } from "../../common/constants";
 
 export default {
   namespaced: true,
   state: {
     pizzaList: [],
     additionalList: [],
+    currentDeliveryType: TypeOfDelivery.GET_IT_MYSELF,
   },
   getters: {
     getPizzaById: (state) => (id) => {
@@ -58,6 +62,12 @@ export default {
         newPizzaItem,
         ...additionalList.slice(idx + 1),
       ];
+    },
+    [SET_CURRENT_DELIVERY_TYPE](state, payload) {
+      state.currentDeliveryType = payload;
+    },
+    [CLEAR_PIZZA_LIST](state) {
+      state.pizzaList = [];
     },
   },
   actions: {

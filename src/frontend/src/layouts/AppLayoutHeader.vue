@@ -51,12 +51,6 @@ import { mapState } from "vuex";
 
 export default {
   name: `AppLayoutHeader`,
-  props: {
-    user: {
-      type: [Object, null],
-      default: null,
-    },
-  },
   data() {
     return {
       Path,

@@ -51,3 +51,19 @@ export const Path = {
   ORDERS: `/orders`,
   PROFILE: `/profile`,
 };
+
+export const TypeOfDelivery = {
+  GET_IT_MYSELF: "Получу сам",
+  NEW_ADDRESS: "Новый адрес",
+  EXISTING_ADDRESS: "Существующий адрес",
+};
+
+export const DeliveryLogOutAddressOptions = [
+  TypeOfDelivery.GET_IT_MYSELF,
+  TypeOfDelivery.NEW_ADDRESS,
+];
+
+export const DeliveryLogInAddressOption = [
+  ...DeliveryLogOutAddressOptions,
+  TypeOfDelivery.EXISTING_ADDRESS,
+];

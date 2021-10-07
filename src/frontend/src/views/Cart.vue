@@ -1,5 +1,5 @@
 <template>
-  <form action="" method="post" class="layout-form">
+  <form @submit.prevent="submitHandler" class="layout-form">
     <main class="content cart">
       <div class="container">
         <div class="cart__title">
@@ -38,8 +38,8 @@
     </main>
     <section v-if="!isEmptyPizzaList" class="footer">
       <div class="footer__more">
-        <a href="#" class="button button--border button--arrow"
-          >Хочу еще одну</a
+        <router-link :to="Path.ROOT" class="button button--border button--arrow"
+          >Хочу еще одну</router-link
         >
       </div>
       <p class="footer__text">
@@ -53,23 +53,32 @@
         <button type="submit" class="button">Оформить заказ</button>
       </div>
     </section>
+    <CardPopup v-if="isOpenPopup" />
   </form>
 </template>
 
 <script>
 import CartPizzaItem from "../modules/card/CartPizzaItem";
 import CartAdditionItem from "../modules/card/CartAdditionItem";
+import CardPopup from "../modules/card/CardPopup";
 import CardOrder from "../modules/card/CardOrder";
-import { mapMutations, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 import { Path } from "../common/constants";
 import {
   SET_COUNT_OF_PIZZA,
   SET_COUNT_OF_ADDITION_PRODUCT,
+  CLEAR_PIZZA_LIST,
 } from "../store/mutations-types";
 
 export default {
   name: "Cart",
-  components: { CartPizzaItem, CartAdditionItem, CardOrder },
+  components: { CartPizzaItem, CartAdditionItem, CardOrder, CardPopup },
+  data() {
+    return {
+      Path,
+      isOpenPopup: false,
+    };
+  },
   computed: {
     ...mapState("cart", ["additionalList", "pizzaList"]),
     ...mapState(["user"]),
@@ -90,7 +99,9 @@ export default {
     ...mapMutations("cart", [
       SET_COUNT_OF_PIZZA,
       SET_COUNT_OF_ADDITION_PRODUCT,
+      CLEAR_PIZZA_LIST,
     ]),
+    ...mapActions("cart", ["fetchAllAdditionProducts"]),
     editPizzaHandler(id) {
       this.$router.push({ path: Path.ROOT, query: { id } });
     },
@@ -99,6 +110,11 @@ export default {
     },
     changeAdditionCounterHandler(newCount) {
       this.SET_COUNT_OF_ADDITION_PRODUCT(newCount);
+    },
+    submitHandler() {
+      this.isOpenPopup = true;
+      this.CLEAR_PIZZA_LIST();
+      this.fetchAllAdditionProducts();
     },
   },
 };
