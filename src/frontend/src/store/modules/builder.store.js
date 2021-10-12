@@ -30,6 +30,25 @@ export default {
   state: {
     currentPizzaParams: null,
   },
+  getters: {
+    getIngredientsPrice: (state) => {
+      return state.currentPizzaParams.ingredients.reduce((acc, val) => {
+        return acc + val.count * val.price;
+      }, 0);
+    },
+    getTotalPizzaPrice: (state, { getIngredientsPrice }, { pizza }) => {
+      const { doughType, size, sauce } = state.currentPizzaParams;
+      const { multiplier } = pizza.sizes.find(({ name }) => name === size);
+      const { price: doughPrice } = pizza.dough.find(
+        ({ name }) => name === doughType
+      );
+      const { price: saucePrice } = pizza.sauces.find(
+        ({ name }) => name === sauce
+      );
+
+      return multiplier * (doughPrice + saucePrice + getIngredientsPrice);
+    },
+  },
   actions: {
     setDefaultCurrentPizza({ commit }, pizzaParams) {
       commit(SET_DEFAULT_CURRENT_PIZZA, pizzaParams);

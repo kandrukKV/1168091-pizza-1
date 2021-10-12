@@ -14,15 +14,14 @@ const state = {
 };
 
 const actions = {
-  async initialApp({ dispatch }) {
-    const pizzaParams = await dispatch("fetchPizzaParams");
-    dispatch("builder/setDefaultCurrentPizza", pizzaParams);
+  async initialApp({ dispatch, state }) {
+    await dispatch("fetchPizzaParams");
+    await dispatch("builder/setDefaultCurrentPizza", state.pizza);
     await dispatch("cart/fetchAllAdditionProducts");
   },
-  async fetchPizzaParams({ commit }) {
-    const pizzaParams = await pizzaJson;
+  fetchPizzaParams({ commit }) {
+    const pizzaParams = pizzaJson;
     commit(SET_PIZZA_PARAMS, pizzaParams);
-    return await pizzaJson;
   },
 };
 

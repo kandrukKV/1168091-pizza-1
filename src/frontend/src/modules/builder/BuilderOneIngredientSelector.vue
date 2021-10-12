@@ -28,9 +28,6 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {};
-  },
   methods: {
     getIngredientClass(ingredientName) {
       return INGREDIENT[ingredientName];

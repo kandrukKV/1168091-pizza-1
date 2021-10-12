@@ -21,6 +21,15 @@ export default {
     getPizzaById: (state) => (id) => {
       return state.pizzaList.find((item) => item.params.id === id);
     },
+    getTotalPrice: (state) => {
+      const pizzaPrice = state.pizzaList.reduce((acc, item) => {
+        return acc + item.totalPrice * item.params.count;
+      }, 0);
+      const additionPrice = state.additionalList.reduce((acc, item) => {
+        return acc + item.count * item.price;
+      }, 0);
+      return pizzaPrice + additionPrice;
+    },
   },
   mutations: {
     [SET_ALL_ADDITION_PRODUCTS](state, products) {
@@ -71,8 +80,8 @@ export default {
     },
   },
   actions: {
-    async fetchAllAdditionProducts({ commit }) {
-      const allAdditionProducts = await allAdditionJson;
+    fetchAllAdditionProducts({ commit }) {
+      const allAdditionProducts = allAdditionJson;
       const adaptAllAdditionProducts = allAdditionProducts.map((item) => {
         return {
           ...item,

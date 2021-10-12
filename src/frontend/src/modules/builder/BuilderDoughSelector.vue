@@ -4,21 +4,21 @@
       <h2 class="title title--small sheet__title">Выберите тесто</h2>
       <div class="sheet__content dough">
         <label
-          v-for="type in doughTypes"
-          :key="type.id"
+          v-for="{ id, name, description } in doughTypes"
+          :key="id"
           class="dough__input"
-          :class="`dough__input--${DOUGH_TYPE[type.name]}`"
+          :class="`dough__input--${getDoughType(name)}`"
         >
           <input
             type="radio"
-            name="dought"
-            :value="type.name"
+            name="dough"
+            :value="name"
             class="visually-hidden"
-            :checked="DOUGH_TYPE[type.name] === DOUGH_TYPE[currentDoughType]"
+            :checked="getDoughType(name) === getDoughType(currentDoughType)"
             @change="changeTypeHandler"
           />
-          <b>{{ type.name }}</b>
-          <span>{{ type.description }}</span>
+          <b>{{ name }}</b>
+          <span>{{ description }}</span>
         </label>
       </div>
     </div>
@@ -40,12 +40,10 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      DOUGH_TYPE,
-    };
-  },
   methods: {
+    getDoughType(typeName) {
+      return DOUGH_TYPE[typeName];
+    },
     changeTypeHandler(evt) {
       this.$emit("setDoughType", evt.target.value);
     },

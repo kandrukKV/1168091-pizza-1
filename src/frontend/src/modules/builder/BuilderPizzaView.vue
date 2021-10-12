@@ -19,12 +19,10 @@
         >
           <div class="pizza__wrapper">
             <div
-              v-for="item in ingredients"
-              :key="item.id"
+              v-for="{ id, name, count } in ingredients"
+              :key="id"
               class="pizza__filling"
-              :class="`pizza__filling--${
-                INGREDIENT[item.name]
-              }${getAdditionClass(item.count)}`"
+              :class="getAdditionClass({ count, name })"
             />
           </div>
         </div>
@@ -76,11 +74,6 @@ export default {
       default: true,
     },
   },
-  data() {
-    return {
-      INGREDIENT,
-    };
-  },
   computed: {
     ingredients() {
       const { ingredients } = this.currentPizzaParams;
@@ -95,20 +88,22 @@ export default {
     },
   },
   methods: {
-    getAdditionClass(count) {
+    getAdditionClass({ count, name }) {
+      let countClass = "";
+
       if (count === 2) {
-        return ` pizza__filling--second`;
+        countClass = `pizza__filling--second`;
       }
       if (count === 3) {
-        return ` pizza__filling--third`;
+        countClass = `pizza__filling--third`;
       }
-      return ``;
+      return `pizza__filling--${INGREDIENT[name]} ${countClass}`;
     },
     changePizzaNameHandler(evt) {
       this.$emit("changePizzaValue", evt.target.value);
     },
-    dropIngredientHandler(ingredient) {
-      this.$emit("addIngredient", ingredient.id);
+    dropIngredientHandler({ id }) {
+      this.$emit("dropIngredient", id);
     },
     clickBtnMakePizzaHandler() {
       this.$emit("clickBtnMakePizza");

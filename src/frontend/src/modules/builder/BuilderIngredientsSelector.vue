@@ -19,7 +19,7 @@
               class="ingredients__item"
             >
               <AppDrag
-                :draggable="item.count < IngredientCount.MAX"
+                :draggable="item.count < $options.IngredientCount.MAX"
                 :transfer-data="item"
               >
                 <BuilderOneIngredientSelector
@@ -62,11 +62,7 @@ export default {
       default: () => [],
     },
   },
-  data() {
-    return {
-      IngredientCount,
-    };
-  },
+  IngredientCount,
   methods: {
     setSauceHandler(sauceName) {
       this.$emit("changeCurrentSauce", sauceName);

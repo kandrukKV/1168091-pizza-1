@@ -58,12 +58,12 @@ export const TypeOfDelivery = {
   EXISTING_ADDRESS: "Существующий адрес",
 };
 
-export const DeliveryLogOutAddressOptions = [
+export const DeliveryLogOutAddressOption = [
   TypeOfDelivery.GET_IT_MYSELF,
   TypeOfDelivery.NEW_ADDRESS,
 ];
 
 export const DeliveryLogInAddressOption = [
-  ...DeliveryLogOutAddressOptions,
+  ...DeliveryLogOutAddressOption,
   TypeOfDelivery.EXISTING_ADDRESS,
 ];

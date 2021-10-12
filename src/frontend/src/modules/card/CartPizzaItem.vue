@@ -20,8 +20,8 @@
 
     <CartCounter
       class="cart-list__counter"
-      :count="pizza.params.count"
-      :id="pizza.params.id"
+      :count="currentPizza.count"
+      :id="currentPizza.id"
       @changeCounter="changeCounterHandler"
     />
 
@@ -33,7 +33,7 @@
       <button
         type="button"
         class="cart-list__edit"
-        @click="clickChangeBtnHandler(pizza.params.id)"
+        @click="clickChangeBtnHandler(currentPizza.id)"
       >
         Изменить
       </button>
@@ -62,19 +62,17 @@ export default {
       return this.currentPizza.sauce.toLowerCase();
     },
     dough() {
-      return DOUGH_NAME_FOR_CART[this.pizza.params.doughType];
+      return DOUGH_NAME_FOR_CART[this.currentPizza.doughType];
     },
     ingredients() {
       const { ingredients } = this.currentPizza;
-      const filteredIngredient = ingredients.filter((item) => item.count > 0);
+      const filteredIngredient = ingredients.filter(({ count }) => count > 0);
       return filteredIngredient
-        .map((item) => {
-          return item.name.toLowerCase();
-        })
+        .map(({ name }) => name.toLowerCase())
         .join(", ");
     },
     price() {
-      return this.pizza.totalPrice * this.pizza.params.count;
+      return this.pizza.totalPrice * this.currentPizza.count;
     },
   },
   methods: {

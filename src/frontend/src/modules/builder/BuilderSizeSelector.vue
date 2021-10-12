@@ -5,21 +5,21 @@
 
       <div class="sheet__content diameter">
         <label
-          v-for="size in sizes"
-          :key="size.id"
+          v-for="{ id, name } in sizes"
+          :key="id"
           class="diameter__input"
-          :class="`diameter__input--${size.name}`"
+          :class="`diameter__input--${name}`"
         >
           <input
             type="radio"
             name="diameter"
-            :value="size.name"
+            :value="name"
             class="visually-hidden"
-            :checked="currentSize === size.name"
+            :checked="currentSize === name"
             @change="changeSizeHandler"
           />
 
-          <span>{{ size.name }}</span>
+          <span>{{ name }}</span>
         </label>
       </div>
     </div>

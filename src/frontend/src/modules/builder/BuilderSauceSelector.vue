@@ -3,18 +3,18 @@
     <p>Основной соус:</p>
 
     <label
-      v-for="sauce in sauces"
-      :key="sauce.name"
+      v-for="{ name } in sauces"
+      :key="name"
       class="radio ingredients__input"
     >
       <input
         type="radio"
         name="sauce"
-        :value="sauce.name"
-        :checked="currentSauce === sauce.name"
+        :value="name"
+        :checked="currentSauce === name"
         @change="changeSauceHandler"
       />
-      <span>{{ sauce.name }}</span>
+      <span>{{ name }}</span>
     </label>
   </div>
 </template>

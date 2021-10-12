@@ -19,7 +19,7 @@
       <input type="text" name="tel" placeholder="+7 999-999-99-99" />
     </label>
 
-    <div v-if="isNewAddress || isExistingAddress" class="cart-form__address">
+    <div v-if="showAddress" class="cart-form__address">
       <span class="cart-form__label">Новый адрес:</span>
 
       <div class="cart-form__input">
@@ -64,7 +64,7 @@
 <script>
 import {
   DeliveryLogInAddressOption,
-  DeliveryLogOutAddressOptions,
+  DeliveryLogOutAddressOption,
   TypeOfDelivery,
 } from "../../common/constants";
 import { mapMutations, mapState } from "vuex";
@@ -73,7 +73,6 @@ export default {
   name: `CartOrder`,
   data() {
     return {
-      TypeOfDelivery,
       userAddress: {
         street: "",
         house: "",
@@ -87,7 +86,7 @@ export default {
     deliveryOptions() {
       return this.user
         ? DeliveryLogInAddressOption
-        : DeliveryLogOutAddressOptions;
+        : DeliveryLogOutAddressOption;
     },
     isExistingAddress() {
       return this.currentDeliveryType === TypeOfDelivery.EXISTING_ADDRESS;
@@ -95,11 +94,16 @@ export default {
     isNewAddress() {
       return this.currentDeliveryType === TypeOfDelivery.NEW_ADDRESS;
     },
+    showAddress() {
+      return this.isExistingAddress || this.isNewAddress;
+    },
   },
   methods: {
-    ...mapMutations("cart", [SET_CURRENT_DELIVERY_TYPE]),
+    ...mapMutations("cart", {
+      setCurrentDeliveryType: SET_CURRENT_DELIVERY_TYPE,
+    }),
     deliveryChangeHandler(evt) {
-      this.SET_CURRENT_DELIVERY_TYPE(evt.target.value);
+      this.setCurrentDeliveryType(evt.target.value);
     },
   },
   watch: {
