@@ -1,3 +1,20 @@
+import resources from "./enums/resources";
+import { DoughApiService } from "../services/doughApi.service";
+import { IngredientsApiService } from "../services/ingredientsApi.service";
+import { MiscApiService } from "../services/miscApi.service";
+import { SaucesApiService } from "../services/saucesApi.service";
+import { SizesApiService } from "../services/sizesApi.service";
+
+export const createResources = () => {
+  return {
+    [resources.DOUGH]: new DoughApiService(resources.DOUGH),
+    [resources.INGREDIENTS]: new IngredientsApiService(resources.INGREDIENTS),
+    [resources.MISC]: new MiscApiService(resources.MISC),
+    [resources.SAUCES]: new SaucesApiService(resources.SAUCES),
+    [resources.SIZES]: new SizesApiService(resources.SIZES),
+  };
+};
+
 export const adaptIngredients = (stuffing) => {
   return stuffing.map((item) => {
     return {
