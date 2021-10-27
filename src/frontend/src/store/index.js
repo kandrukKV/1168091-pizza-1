@@ -4,20 +4,19 @@ import VuexPlugins from "../plugins/vuexPlugins";
 
 import modules from "./modules";
 import { SET_PIZZA_PARAMS } from "./mutations-types";
-import user from "../static/user.json";
 
 Vue.use(Vuex);
 
 const state = {
   pizza: null,
-  user,
 };
 
 const actions = {
-  async initialApp({ dispatch, state }) {
+  async initialApp({ dispatch }) {
     await dispatch("fetchPizzaParams");
     await dispatch("builder/setDefaultCurrentPizza", state.pizza);
     await dispatch("cart/fetchAllAdditionProducts");
+    await dispatch("auth/initialUser");
   },
   async fetchPizzaParams({ commit }) {
     Promise.all([
@@ -37,8 +36,6 @@ const actions = {
       .catch(() => {
         console.log("Ошибка при инициализации приложения");
       });
-
-    // const misc = await this.$api.misc.getList();
   },
 };
 

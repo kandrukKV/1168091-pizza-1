@@ -1,4 +1,3 @@
-import allAdditionJson from "../../static/misc.json";
 import {
   SET_ALL_ADDITION_PRODUCTS,
   ADD_PIZZA_TO_PIZZA_LIST,
@@ -80,8 +79,8 @@ export default {
     },
   },
   actions: {
-    fetchAllAdditionProducts({ commit }) {
-      const allAdditionProducts = allAdditionJson;
+    async fetchAllAdditionProducts({ commit }) {
+      const allAdditionProducts = await this.$api.misc.getList();
       const adaptAllAdditionProducts = allAdditionProducts.map((item) => {
         return {
           ...item,

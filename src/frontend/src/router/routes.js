@@ -1,12 +1,15 @@
 import { Path } from "../common/constants";
 import { getView } from "../common/helpers";
+import { auth, isLoggedIn } from "../middlewares";
 
 export default [
   {
     path: Path.ROOT,
     name: `IndexHome`,
     component: getView("Index"),
-    meta: { layout: "AppLayoutDefault" },
+    meta: {
+      layout: "AppLayoutDefault",
+    },
   },
   {
     path: Path.CART,
@@ -18,18 +21,27 @@ export default [
     path: Path.LOGIN,
     name: `Login`,
     component: getView("Login"),
-    meta: { layout: "AppLayoutModal" },
+    meta: {
+      layout: "AppLayoutModal",
+      middlewares: [isLoggedIn],
+    },
   },
   {
     path: Path.ORDERS,
     name: `Orders`,
     component: getView("Orders"),
-    meta: { layout: "AppLayoutDefault" },
+    meta: {
+      layout: "AppLayoutDefault",
+      middlewares: [auth],
+    },
   },
   {
     path: Path.PROFILE,
     name: `Profile`,
     component: getView("Profile"),
-    meta: { layout: "AppLayoutDefault" },
+    meta: {
+      layout: "AppLayoutDefault",
+      middlewares: [auth],
+    },
   },
 ];

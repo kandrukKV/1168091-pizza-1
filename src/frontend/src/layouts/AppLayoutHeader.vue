@@ -41,7 +41,9 @@
             </picture>
             <span>{{ user.name }}</span>
           </router-link>
-          <a href="#" class="header__logout"><span>Выйти</span></a>
+          <a @click.prevent="logoutClickHandler" class="header__logout"
+            ><span>Выйти</span></a
+          >
         </div>
       </template>
     </div>
@@ -50,13 +52,22 @@
 
 <script>
 import { Path } from "../common/constants";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: `AppLayoutHeader`,
   Path,
   computed: {
-    ...mapState(["user"]),
+    ...mapState("auth", ["user"]),
+  },
+  methods: {
+    ...mapActions("auth", ["logout"]),
+    async logoutClickHandler() {
+      await this.logout();
+      if (this.$route.path !== Path.ROOT) {
+        await this.$router.push(Path.ROOT);
+      }
+    },
   },
 };
 </script>

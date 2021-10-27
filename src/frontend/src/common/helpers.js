@@ -4,6 +4,7 @@ import { IngredientsApiService } from "../services/ingredientsApi.service";
 import { MiscApiService } from "../services/miscApi.service";
 import { SaucesApiService } from "../services/saucesApi.service";
 import { SizesApiService } from "../services/sizesApi.service";
+import { AuthApiService } from "../services/authApi.service";
 
 export const createResources = () => {
   return {
@@ -12,6 +13,7 @@ export const createResources = () => {
     [resources.MISC]: new MiscApiService(resources.MISC),
     [resources.SAUCES]: new SaucesApiService(resources.SAUCES),
     [resources.SIZES]: new SizesApiService(resources.SIZES),
+    [resources.AUTH]: new AuthApiService(),
   };
 };
 

@@ -83,6 +83,17 @@ export default {
     ...mapState(["pizza"]),
     ...mapGetters("cart", ["getPizzaById"]),
     ...mapGetters("builder", ["getIngredientsPrice", "getTotalPizzaPrice"]),
+    // currentPizza() {
+    //   const { id } = this.$route.query;
+    //   if (id) {
+    //     const currentPizza = this.getPizzaById(id);
+    //     if (currentPizza) {
+    //       this.setCurrentPizza(currentPizza.params);
+    //       return this.currentPizzaParams;
+    //     }
+    //   }
+    //   return this.currentPizza()
+    // },
     isDisabledPrepareBtn() {
       return (
         this.getIngredientsPrice === 0 ||
